@@ -4,6 +4,7 @@ let earth;
 let mars;
 let jupiter;
 let saturn;
+let luna;
 
 let centerX;
 let centerY;
@@ -16,14 +17,15 @@ function setup() {
 
   centerX = 0;
   centerY = height / 2;
-  mercury = new Celestial(15, 36, null, 88, color(41, 37, 36));
-  venus = new Celestial(37, 67, null, 225, color(253, 230, 138));
-  earth = new Celestial(39, 92, null, 365, color(23, 37, 84));
-  mars = new Celestial(21, 141, null, 687, color(124, 45, 18));
-  jupiter = new Celestial(434, 438, null, 4332, color(253, 230, 138));
-  saturn = new Celestial(361, 890, null, 24125, color(254, 215, 170));
+  mercury = new Celestial(30, 36, null, 88, color(41, 37, 36));
+  venus = new Celestial(75, 67, null, 225, color(253, 230, 138));
+  earth = new Celestial(79, 92, null, 365, color(23, 37, 84));
+  mars = new Celestial(42, 141, null, 687, color(124, 45, 18));
+  jupiter = new Celestial(868, 438, null, 4332, color(253, 230, 138));
+  saturn = new Celestial(748, 890, null, 24125, color(254, 215, 170));
+  luna = new Celestial(21, 1, earth, 30, color(254, 215, 170));
 
-  celestialBodies = [mercury, venus, earth, mars, jupiter, saturn];
+  celestialBodies = [mercury, venus, earth, mars, jupiter, saturn, luna];
 }
 
 function draw() {
@@ -49,8 +51,14 @@ function draw() {
 
 class Celestial {
   constructor(diameter, distance, parent, days, color) {
-    this.diameter = diameter;
-    this.distance = distance * 2 + sizeOfSun;
+    this.diameter = diameter / 2;
+
+    if (parent) {
+      this.distance = distance + parent.diameter;
+    } else {
+      //account for the diameter of the sun, and also multiply by 2 because scale is off
+      this.distance = distance * 2 + sizeOfSun;
+    }
     this.parent = parent;
     this.days = days;
 
@@ -70,16 +78,19 @@ class Celestial {
       this.degrees = this.degrees - 360;
     }
 
-    this.currentX = centerX + this.distance * cos(radians(this.degrees));
-    this.currentY = centerY + this.distance * sin(radians(this.degrees));
+    if (this.parent !== null) {
+      //orbit around the parent
+      this.currentX =
+        this.parent.currentX + this.distance * cos(radians(this.degrees));
+      this.currentY =
+        this.parent.currentY + this.distance * sin(radians(this.degrees));
+    } else {
+      this.currentX = centerX + this.distance * cos(radians(this.degrees));
+      this.currentY = centerY + this.distance * sin(radians(this.degrees));
+    }
   }
 
   display() {
-    if (parent) {
-      //set parent center
-    } else {
-    }
-
     if (this.color) {
       fill(this.color);
     }
