@@ -5,42 +5,20 @@ let sizeOfSun = 200;
 let celestialBodies = [];
 
 function setup() {
-  createCanvas(1200, 700);
+  createCanvas(1200, 1000);
 
-  centerX = 0;
-  centerY = height / 2;
+  centerX = width / 2;
+  centerY = 0;
   let mercury = new Celestial(30, 50, null, 88, color(41, 37, 36));
-  let venus = new Celestial(50, 140, null, 225, color(230, 230, 230));
-  let earth = new Celestial(53, 260, null, 365, color(47, 78, 106));
-  let luna = new Celestial(12, 8, earth, 30, color(230, 230, 230));
-  let mars = new Celestial(32, 390, null, 687, color(153, 61, 0));
-  let jupiter = new Celestial(150, 500, null, 4332, color(176, 127, 53));
-  let saturn = new Celestial(125, 700, null, 24125, color(176, 143, 54));
-  let uranus = new Celestial(100, 875, null, 30687, color(54, 104, 150));
-  let neptune = new Celestial(100, 1050, null, 60190, color(85, 128, 170));
+  let venus = new Celestial(50, 140, null, 200, color(230, 230, 230));
+  let earth = new Celestial(53, 260, null, 300, color(47, 78, 106));
+  let luna = new Celestial(12, 8, earth, 30, color(246, 241, 213));
+  let mars = new Celestial(32, 390, null, 500, color(153, 61, 0));
+  let jupiter = new Celestial(150, 500, null, 1000, color(176, 127, 53));
+  let saturn = new Celestial(125, 700, null, 2500, color(176, 143, 54));
+  let uranus = new Celestial(100, 875, null, 3500, color(54, 104, 150));
+  let neptune = new Celestial(100, 1050, null, 4000, color(85, 128, 170));
 
-  //const celestialValues = Object.values(celestialBodiesData);
-  // for (let i = 0; i < celestialValues.length; i++) {
-  //   const {
-  //     diameter,
-  //     distance,
-  //     days,
-  //     parent,
-  //     color: celestialColor,
-  //   } = celestialValues[i];
-  //   const { r, g, b } = celestialColor;
-
-  //   celestialBodies.push(
-  //     new Celestial(
-
-  //       diameter,
-  //       distance,
-  //       parent ? celestialBodiesData[parent] : null,
-  //       days,
-  //       color(r, g, b)
-  //     )
-  //   );
-  // }
   celestialBodies = [
     mercury,
     venus,
@@ -55,7 +33,8 @@ function setup() {
 }
 
 function draw() {
-  background(15, 23, 42);
+  clear();
+  background(15, 23, 42, 0);
 
   //add the sun
   fill(color(250, 204, 21));
@@ -82,13 +61,13 @@ class Celestial {
       //account for the radius of the sun
       this.distance = distance + this.diameter / 2 + sizeOfSun / 2;
 
-      this.currentX = centerX + this.distance;
-      this.currentY = centerY;
+      this.currentX = centerX;
+      this.currentY = centerY + this.distance;
     }
     this.parent = parent;
     this.days = days;
 
-    this.degrees = 0;
+    this.degrees = 90;
     this.step = 360 / (this.days * 10);
 
     this.color = color;
@@ -118,7 +97,7 @@ class Celestial {
     //add the orbital path if celestial has no parent object
     if (!this.parent) {
       noFill();
-      stroke(251, 205, 7);
+      stroke(251, 215, 56, 100);
 
       circle(
         centerX,
